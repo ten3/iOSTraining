@@ -9,7 +9,7 @@
 #import "NIMModalViewController.h"
 
 @interface NIMModalViewController ()
-
+@property(nonatomic,assign) int doublePop;
 @end
 
 @implementation NIMModalViewController
@@ -33,7 +33,13 @@
     self.title = [NSString stringWithFormat:@"%d", self.navigationController.viewControllers.count];
 
     // TODO ここに navigation bar の右上をpushするボタンを配置するコードを書く
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"push" style:UIBarButtonItemStylePlain target:self action:@selector(pressPushButton)];
     // TODO さらに、一番先頭に戻るボタンを左に配置する
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"pop" style:UIBarButtonItemStylePlain target:self action:@selector(pressPopButton)];
+        
+    if( self.navigationController.viewControllers.count > 1){
+        self.navigationItem.leftItemsSupplementBackButton = YES;
+    }
 
 }
 
@@ -41,6 +47,24 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)pressPushButton{
+    NIMModalViewController *root = self.navigationController.viewControllers[0];
+    [self.navigationController pushViewController:[[NIMModalViewController alloc]init] animated:YES];
+    root.doublePop = 0;
+}
+
+- (void)pressPopButton{
+    NIMModalViewController *root = self.navigationController.viewControllers[0];
+    if( root.doublePop ){
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
+    root.doublePop = 1;
+    return;
 }
 
 @end

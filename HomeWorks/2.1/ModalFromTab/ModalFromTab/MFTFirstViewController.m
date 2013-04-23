@@ -7,6 +7,7 @@
 //
 
 #import "MFTFirstViewController.h"
+#import "MFTModalViewController.h"
 
 @interface MFTFirstViewController ()
 
@@ -23,6 +24,7 @@
     }
     return self;
 }
+
 							
 - (void)viewDidLoad
 {
@@ -36,4 +38,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(BOOL) didTabBarPushed{
+
+    return NO;
+}
 @end
