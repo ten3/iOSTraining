@@ -31,6 +31,27 @@
     _cellForCalcHeight = [_tableView dequeueReusableCellWithIdentifier:@"maimai"];
 
     //TODO : samplData.plist から NSArray を作成しましょう [1]
+    _texts = [self readPlist:@"sampleData.plist"];
+}
+
+- (NSArray *) readPlist:(NSString *)fileName{
+    NSString *plistPath = [[NSBundle mainBundle] pathForResource:@"sampleData" ofType:@"plist"];
+    NSLog( @"data : %@" , plistPath);
+    
+    NSData *plistXml = [[NSFileManager defaultManager] contentsAtPath:plistPath];
+    NSPropertyListFormat format;
+    NSString *errorDesc;
+    NSArray *propertyList = [NSPropertyListSerialization
+                                         propertyListFromData:plistXml
+                                         mutabilityOption:NSPropertyListMutableContainersAndLeaves
+                                         format:&format
+                                         errorDescription:&errorDesc ];
+    
+    if ( !propertyList ){
+        NSLog( @"plist read error : %@", errorDesc);
+    }
+    
+    return propertyList;
 }
 
 - (void)didReceiveMemoryWarning
@@ -42,7 +63,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //TODO : cellForCalcHeight の高さ計算メソッドを使って高さを計算しましょう
-    return 10;
+    return [_cellForCalcHeight calculateCellHeightWithText:_texts[indexPath.row]];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

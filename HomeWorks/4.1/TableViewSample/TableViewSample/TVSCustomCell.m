@@ -29,9 +29,10 @@
 -(CGFloat)calculateCellHeightWithText:(NSString *)text
 {
     // TODO : UILabel の高さ計算 [2]
-    // HINT : (CGSize)sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode
-
-    CGSize size;
+    
+    NSLog(@"%@" , self.textLabel.font);
+    UIFont *font = _bodyLabel.font;
+    CGSize size = [text sizeWithFont:font constrainedToSize:CGSizeMake(self.bodyLabel.frame.size.width, 1000.0f) lineBreakMode:NSLineBreakByWordWrapping];
 
     CGFloat top = 20.0f;
     CGFloat bottom = 20.0f;
